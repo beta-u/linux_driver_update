@@ -2,31 +2,52 @@
 '''Confirm the latest driver version
 
 Usage:
-	version <driver>
+	version <machine> <OS> <driver>
 
 Options:
 	-h,--help Show this message
 
 Example:
-	version igb
-	version -h
+	version NF5270M4 rhel6.6 igb
+	version SAS5212M3 ubuntu12.04 megaraid_sas
+
 '''
 from docopt import docopt
 
 def cli():
-	argument = docopt(__doc__)
-	print list[argument['<driver>']]
+    argument = docopt(__doc__)
+    machine = argument['<machine>']
+    os = argument['<OS>']
+    driver = argument['<driver>']
+    print list[machine][os][driver]
 	
 list = {
-		'igb':			'5.3.0',
-		'ixgb':			'4.4.0',
-		'megaraid_sas':	'06.812.02.00',
-		'pmc':			'',
-		'qla2xxx':		'8.07.00.33.07.3',
-		'lpfc':			'',
-		'':				'',
-		'':				'',
-		   }
+    'NF5270M4':{
+	'rhel6.6':{
+	    'igb':	    '5.3.0',
+	    'ixgb':	    '4.4.0',
+	    'qla2xxx':	    '8.07.00.33.07.3',
+	    'lpfc':	    '12.04.00',
+	    'megaraid_sas': '06.812.02.00'
+	    },
+	'ubuntu':{
+	    
+	    }
+	},
 
+    'P8000':{
+	'sles12.2':{
+	    'igb':	    '5.3.0',
+	    'ixgb':	    '4.4.0',
+	    'qla2xxx':	    '8.07.00.33.07.3',
+	    'lpfc':	    '12.04.00',
+	    'megaraid_sas': '06.812.02.00'
+	    },
+	'centos':{
+	    
+	    }
+	}
+
+    }
 if __name__ == '__main__':
 	cli()
