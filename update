@@ -1,0 +1,50 @@
+#!/usr/bin/env python
+'''
+	This program will test the driver version on your machine is latest or not. If not, this will help you upgrade to the latest automatically.
+
+Usage:	
+	update <driver> <driver_now> <driver_latest>
+
+Option:
+	-h,--help show this message
+
+'''
+from docopt import docopt
+import subprocess
+import time
+argument = docopt(__doc__)
+
+def process():
+	try:
+		confirm = raw_input('Enter Yes/No to process or cancel update: ')
+		if confirm == 'Yes':
+			print "Attention:\n	Next step program will upgrade the driver!"
+			time.sleep(2)
+#			os.system('sh driver_update.sh' argument['<driver>'] )
+			subprocess.call(['sh select', argument['<driver>']])
+		elif confirm == 'No':
+			print "Attention:\n You just canceled the driver upgrade!"
+		else:
+			print "Invalid input, try again."
+			process()
+		except KeyboardInterrupt:
+			print "\nYou just input Ctrl+C to interrupt, program terminated!"
+		
+def driver_judge():
+	argument = docopt(__doc__)
+	driver_now = argument['<driver_now>']
+	driver_latest = argument['<driver_latest>']
+	if driver_latest in driver_now:
+		print 'The driver version of this card is the latest, no need to upgrade!'
+	elif driver_now > driver_latest:
+		print 'The driver version of this card is newer than your database, please update your database!'
+	else:
+		print "ATTENTION:\n	You should upgrade your driver now!"
+		try:
+			process()
+		except KeyboardInterrupt:
+			print "\nYou just input Ctrl+C to interrupt, program terminated!"
+
+if __name__ == '__main__':
+	driver_judge()
+	
